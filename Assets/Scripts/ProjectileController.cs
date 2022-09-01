@@ -30,4 +30,11 @@ public class ProjectileController : NetworkBehaviour
         }
         
     }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("Spawner"))
+        {
+            Destroy(gameObject);
+        }
+    }
 }

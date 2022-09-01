@@ -5,26 +5,24 @@ using Mirror;
 
 public class EnemyController : NetworkBehaviour
 {
-    // Start is called before the first frame update
     private int health = 1;
     private float speed = 3f;
     private int damage = 1;
     private int score;
     private bool alreadyHit = false;
+    private Vector2 destination;
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
         //get pos of closest player
         var player = FindObjectOfType<PlayerController>();
         if (player != null)
         {
-            Vector3 direction = player.transform.position - transform.position;
-            transform.right = direction;
+            transform.right = destination;
         }
         GetComponent<Rigidbody2D>().velocity = transform.right * speed;
 
@@ -33,10 +31,14 @@ public class EnemyController : NetworkBehaviour
     public void TakeDamage(int damage)
     {
         health -= damage;
-        if(health <= 0)
+        if (health <= 0)
         {
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
+    }
+    public void SetDestination(Vector2 dest)
+    {
+        destination = dest;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -48,6 +50,13 @@ public class EnemyController : NetworkBehaviour
             alreadyHit = true;
             gameObject.SetActive(false);
             collision.GetComponent<PlayerController>().TakeDamage(damage);
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("Spawner"))
+        {
+            Destroy(gameObject);
         }
     }
 }

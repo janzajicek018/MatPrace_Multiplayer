@@ -6,21 +6,46 @@ using Mirror;
 public class EnemySpawner : NetworkBehaviour
 {
     [SerializeField] private GameObject pfEnemy;
+    private BoxCollider2D boxCollider;
+    private Bounds colliderBounds;
+    private Vector3 colliderCenter;
 
     // Start is called before the first frame update
     void Start()
     {
-        //SpawnEnemy();
+        boxCollider = GetComponent<BoxCollider2D>();
+        colliderBounds = boxCollider.bounds;
+        colliderCenter = colliderBounds.center;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            SpawnEnemy();
+        }
     }
+    [Server]
     public void SpawnEnemy()
     {
-        var enemy = Instantiate(pfEnemy, gameObject.transform);
+        float[] floats = { 
+            colliderCenter.x - colliderBounds.extents.x,
+            colliderCenter.x + colliderBounds.extents.x,
+            colliderCenter.y - colliderBounds.extents.y,
+            colliderCenter.y + colliderBounds.extents.y 
+        };
+        float randomX = Random.Range(floats[0], floats[1]);
+        float randomY = Random.Range(floats[2], floats[3]);
+        Vector3 spawnPos = new Vector3(randomX, randomY, 0);
+
+        randomX = Random.Range(floats[0], floats[1]);
+        randomY = Random.Range(floats[2], floats[3]);
+        Vector3 destination = new Vector3(randomX, randomY);
+
+        var enemy = Instantiate(pfEnemy, spawnPos, Quaternion.identity);
+
+        enemy.GetComponent<EnemyController>().SetDestination(destination);
 
         NetworkServer.Spawn(enemy);
     }
