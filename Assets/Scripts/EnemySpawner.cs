@@ -5,11 +5,15 @@ using Mirror;
 
 public class EnemySpawner : NetworkBehaviour
 {
+    public int EnemyCount { get { return enemyCount; } set { enemyCap = value; } } 
+
     [SerializeField] private GameObject pfEnemy;
     private BoxCollider2D boxCollider;
     private Bounds colliderBounds;
     private Vector3 colliderCenter;
-
+    private int enemyCap = 20;
+    private int enemyCount = 0;
+    private float spawnTimer = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,10 +25,21 @@ public class EnemySpawner : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X))
+        if(spawnTimer <= 0)
+        {
+            spawnTimer = Random.Range(.1f, 2);
+            if(enemyCount < enemyCap)
+            {
+                SpawnEnemy();
+                enemyCount++;
+            }
+        }
+        spawnTimer -= Time.deltaTime;
+
+        /*if (Input.GetKeyDown(KeyCode.X))
         {
             SpawnEnemy();
-        }
+        }*/
     }
     [Server]
     public void SpawnEnemy()
@@ -38,10 +53,10 @@ public class EnemySpawner : NetworkBehaviour
         float randomX = Random.Range(floats[0], floats[1]);
         float randomY = Random.Range(floats[2], floats[3]);
         Vector3 spawnPos = new Vector3(randomX, randomY, 0);
-
-        randomX = Random.Range(floats[0], floats[1]);
-        randomY = Random.Range(floats[2], floats[3]);
-        Vector3 destination = new Vector3(randomX, randomY);
+       
+        randomX = randomX - Random.Range(floats[0], floats[1])/2;
+        randomY = randomY - Random.Range(floats[2], floats[3])/2;
+        Vector3 destination = new Vector3(-randomX, -randomY);
 
         var enemy = Instantiate(pfEnemy, spawnPos, Quaternion.identity);
 

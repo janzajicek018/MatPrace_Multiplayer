@@ -13,7 +13,6 @@ public class PlayerController : NetworkBehaviour
 	private int playerHealth = 3;
 	private float speed = .5f;
 	private float maxSpeed = 7f;
-	private int score = 0;
 
 	public int PlayerHealth { get { return playerHealth; } set { playerHealth = value; } }
 	//https://mirror-networking.gitbook.io/docs/guides/synchronization
@@ -82,10 +81,15 @@ public class PlayerController : NetworkBehaviour
 	[Command]
 	public void CmdFireProjectile()
     {
+		RpcFireProjectile();
+    }
+	[ClientRpc]
+	public void RpcFireProjectile()
+	{
 		GameObject projectile = Instantiate(pfProjectile, projectileSpawner.transform.position, transform.rotation);
 		NetworkServer.Spawn(projectile);
 		Destroy(projectile, 7);
-    }
+	}
 	IEnumerator Fire()
     {
         while (true)
