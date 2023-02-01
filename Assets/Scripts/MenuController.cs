@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
+    NetworkManager manager;
     // Start is called before the first frame update
     void Start()
     {
+        manager = FindObjectOfType<NetworkManager>();
     }
 
     // Update is called once per frame
@@ -23,5 +25,6 @@ public class MenuController : MonoBehaviour
     public void HostPlay()
     {
         SceneManager.LoadScene("OnlineScene");
+        manager.StartHost();
     }
 }
