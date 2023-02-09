@@ -605,6 +605,7 @@ GameObject:
   - component: {fileID: 695126543}
   - component: {fileID: 695126542}
   - component: {fileID: 695126541}
+  - component: {fileID: 695126544}
   m_Layer: 5
   m_Name: BtnJoin
   m_TagString: Untagged
@@ -676,7 +677,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 695126542}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 695126544}
+        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+        m_MethodName: Join
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &695126542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -715,6 +728,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 695126539}
   m_CullTransparentMesh: 1
+--- !u!114 &695126544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 695126539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b20ff2433348b564f955eed203573704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &838003104
 GameObject:
   m_ObjectHideFlags: 0
@@ -1532,7 +1557,7 @@ GameObject:
   - component: {fileID: 1385019350}
   m_Layer: 5
   m_Name: InpAddress
-  m_TagString: Untagged
+  m_TagString: InpAddress
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

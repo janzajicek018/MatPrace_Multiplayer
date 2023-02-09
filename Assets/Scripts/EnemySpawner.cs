@@ -62,7 +62,7 @@ public class EnemySpawner : NetworkBehaviour
         var enemy = Instantiate(pfEnemy, spawnPos, Quaternion.identity);
 
         enemy.GetComponent<EnemyController>().SetDestination(destination);
-
-        NetworkServer.Spawn(enemy);
+        if(NetworkServer.activeHost)
+            NetworkServer.Spawn(enemy);
     }
 }
