@@ -1,7 +1,0 @@
-main menu
-  host/join system
-test if projectiles/enemies travel properly across network
-add more enemies
-score system
-user interface
-textures, sound

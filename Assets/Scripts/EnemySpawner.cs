@@ -5,15 +5,15 @@ using Mirror;
 
 public class EnemySpawner : NetworkBehaviour
 {
-    //?? why
-    public int EnemyCount { get { return enemyCount; } set { enemyCap = value; } } 
+
 
     [SerializeField] private GameObject pfEnemy;
     private BoxCollider2D boxCollider;
     private Bounds colliderBounds;
     private Vector3 colliderCenter;
     private int enemyCap = 20;
-    private int enemyCount = 0;
+    [SerializeField]
+    public int enemyCount = 0;
     private float spawnTimer = 0;
     // Start is called before the first frame update
     void Start()

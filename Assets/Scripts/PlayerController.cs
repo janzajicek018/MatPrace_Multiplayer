@@ -86,10 +86,12 @@ public class PlayerController : NetworkBehaviour
 	[ClientRpc]
 	public void RpcFireProjectile()
 	{
-		GameObject projectile = Instantiate(pfProjectile, projectileSpawner.transform.position, transform.rotation);
-		Destroy(projectile, 7);
-		if(NetworkServer.activeHost)
+		if (NetworkServer.activeHost)
+		{
+			GameObject projectile = Instantiate(pfProjectile, projectileSpawner.transform.position, transform.rotation);
+			Destroy(projectile, 7);
 			NetworkServer.Spawn(projectile);
+		}
 	}
 	IEnumerator Fire()
     {

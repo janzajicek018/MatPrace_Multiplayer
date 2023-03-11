@@ -5,7 +5,7 @@ using Mirror;
 
 public class EnemyController : NetworkBehaviour
 {
-    [SerializeField] private GameObject enemySpawner;
+    private EnemySpawner enemySpawner;
     [SyncVar] private int health = 1;
     private float speed = 3f;
     private int damage = 1;
@@ -13,7 +13,7 @@ public class EnemyController : NetworkBehaviour
     private Vector2 destination;
     void Start()
     {
-
+        enemySpawner = FindObjectOfType<EnemySpawner>();
     }
 
     void Update()
@@ -29,7 +29,7 @@ public class EnemyController : NetworkBehaviour
         health -= damage;
         if (health <= 0)
         {
-            enemySpawner.GetComponent<EnemySpawner>().EnemyCount -= 1;
+            enemySpawner.enemyCount -= 1;
             Destroy(gameObject);
         }
     }
@@ -42,10 +42,10 @@ public class EnemyController : NetworkBehaviour
     {
         if (collision.transform.CompareTag("Player"))
         {
-            //without this player takes 2 damage instead of 1
+            //without this player takes 2 damage instead of 1 no idea why
             if (alreadyHit) return;
             alreadyHit = true;
-            gameObject.SetActive(false);
+            TakeDamage(health);
             collision.GetComponent<PlayerController>().TakeDamage(damage);
         }
     }
@@ -62,7 +62,7 @@ public class EnemyController : NetworkBehaviour
     {
         if (collision.transform.CompareTag("Enemy"))
         {
-            Destroy(gameObject);
+            TakeDamage(health);
         }
     }
 }
