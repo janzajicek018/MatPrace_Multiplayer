@@ -26,6 +26,7 @@ public class EnemyController : NetworkBehaviour
     [Server]
     public void TakeDamage(int damage)
     {
+        if (!NetworkServer.activeHost) return;
         health -= damage;
         if (health <= 0)
         {
@@ -46,7 +47,7 @@ public class EnemyController : NetworkBehaviour
             if (alreadyHit) return;
             alreadyHit = true;
             TakeDamage(health);
-            collision.GetComponent<PlayerController>().TakeDamage(damage);
+            collision.GetComponent<PlayerController>().CmdTakeDamage(damage);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)

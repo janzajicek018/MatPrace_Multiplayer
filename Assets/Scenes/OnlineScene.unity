@@ -396,6 +396,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2008605100386118069, guid: f37ede1a5a568f34190685af9c1d5664, type: 3}
+      propertyPath: enemyCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2008605100386118069, guid: f37ede1a5a568f34190685af9c1d5664, type: 3}
       propertyPath: colliderOuter
       value: 
       objectReference: {fileID: 838091209}

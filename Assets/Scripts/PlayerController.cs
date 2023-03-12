@@ -37,7 +37,11 @@ public class PlayerController : NetworkBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (!isLocalPlayer) return;
+        if (playerHealth <= 0)
+        {
+            gameObject.SetActive(false);
+        }
+        if (!isLocalPlayer) return;
 		MovePlayer();
 		/*if (Input.GetKeyDown(KeyCode.C))
 		{
@@ -105,7 +109,13 @@ public class PlayerController : NetworkBehaviour
 			yield return null;
         }
     }
-	public void TakeDamage(int damage)
+	[Command]
+	public void CmdTakeDamage(int damage)
+	{
+		RpcTakeDamage(damage);
+	}
+	[ClientRpc]
+	public void RpcTakeDamage(int damage)
     {
 		playerHealth -= damage;
 		if(playerHealth <= 0)

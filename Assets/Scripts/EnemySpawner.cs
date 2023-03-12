@@ -4,9 +4,7 @@ using UnityEngine;
 using Mirror;
 
 public class EnemySpawner : NetworkBehaviour
-{
-
-
+{   
     [SerializeField] private GameObject pfEnemy;
     private BoxCollider2D boxCollider;
     private Bounds colliderBounds;
