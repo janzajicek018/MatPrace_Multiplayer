@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System;
 
 public class EnemySpawner : NetworkBehaviour
 {   
@@ -12,6 +13,8 @@ public class EnemySpawner : NetworkBehaviour
     private int enemyCap = 20;
     [SerializeField]
     public int enemyCount = 0;
+    public int totalCount = 0;
+    public float timerMax = 2;
     private float spawnTimer = 0;
     // Start is called before the first frame update
     void Start()
@@ -26,11 +29,19 @@ public class EnemySpawner : NetworkBehaviour
     {
         if(spawnTimer <= 0)
         {
-            spawnTimer = Random.Range(.1f, 2);
-            if(enemyCount < enemyCap)
+            
+            spawnTimer = UnityEngine.Random.Range(.1f, timerMax);
+            if (enemyCount < enemyCap)
             {
+                Debug.Log(timerMax);
                 SpawnEnemy();
                 enemyCount++;
+                totalCount++;
+                if(totalCount % 20 == 0)
+                {
+                    timerMax = (float)Math.Pow(totalCount, -0.5) + 1;
+
+                }
             }
         }
         spawnTimer -= Time.deltaTime;
@@ -49,12 +60,12 @@ public class EnemySpawner : NetworkBehaviour
             colliderCenter.y - colliderBounds.extents.y,
             colliderCenter.y + colliderBounds.extents.y 
         };
-        float randomX = Random.Range(floats[0], floats[1]);
-        float randomY = Random.Range(floats[2], floats[3]);
+        float randomX = UnityEngine.Random.Range(floats[0], floats[1]);
+        float randomY = UnityEngine.Random.Range(floats[2], floats[3]);
         Vector3 spawnPos = new Vector3(randomX, randomY, 0);
        
-        randomX = randomX - Random.Range(floats[0], floats[1])/2;
-        randomY = randomY - Random.Range(floats[2], floats[3])/2;
+        randomX = randomX - UnityEngine.Random.Range(floats[0], floats[1])/2;
+        randomY = randomY - UnityEngine.Random.Range(floats[2], floats[3])/2;
         Vector3 destination = new Vector3(-randomX, -randomY);
 
         var enemy = Instantiate(pfEnemy, spawnPos, Quaternion.identity);
